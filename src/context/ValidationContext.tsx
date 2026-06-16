@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import type { ValidationResult } from "@/lib/types";
 
 interface ContextType {
@@ -11,25 +11,22 @@ const ValidationContext = createContext<ContextType | null>(null);
 
 const STORAGE_KEY = "xv_last_result";
 
-export function ValidationProvider({ children }: { children: ReactNode }) {
-  const [result, setResultState] = useState<ValidationResult | null>(null);
-  const [fileName, setFileName] = useState("");
+function readStored(): { result: ValidationResult | null; fileName: string } {
+  if (typeof window === "undefined") return { result: null, fileName: "" };
+  try {
+    const raw = window.sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return { result: null, fileName: "" };
+    const parsed = JSON.parse(raw) as { result: ValidationResult; fileName: string };
+    return { result: parsed.result, fileName: parsed.fileName ?? "" };
+  } catch {
+    return { result: null, fileName: "" };
+  }
+}
 
-  // Rehydrate from sessionStorage on mount (survives route transitions / reloads).
-  useEffect(() => {
-    if (result) return;
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as { result: ValidationResult; fileName: string };
-        setResultState(parsed.result);
-        setFileName(parsed.fileName);
-      }
-    } catch {
-      /* ignore */
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export function ValidationProvider({ children }: { children: ReactNode }) {
+  const initial = readStored();
+  const [result, setResultState] = useState<ValidationResult | null>(initial.result);
+  const [fileName, setFileName] = useState(initial.fileName);
 
   const setResult = (r: ValidationResult, name: string) => {
     setResultState(r);
