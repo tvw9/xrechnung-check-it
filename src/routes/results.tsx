@@ -5,7 +5,6 @@ import { Footer } from "@/components/layout/Footer";
 import { ScoreCircle } from "@/components/results/ScoreCircle";
 import { ValidationList } from "@/components/results/ValidationList";
 import { SummaryBar } from "@/components/results/SummaryBar";
-import { UpgradeModal } from "@/components/results/UpgradeModal";
 import { useValidation } from "@/context/ValidationContext";
 import type { ValidationResult } from "@/lib/types";
 
@@ -74,20 +73,11 @@ ${r.passed.map((p) => `<tr><td><code>${p.code}</code></td><td>${p.field}<br/><sp
 function ResultsPage() {
   const { result, fileName } = useValidation();
   const navigate = useNavigate();
-  const [showUpgrade, setShowUpgrade] = useState(false);
 
   useEffect(() => {
     if (!result) {
       navigate({ to: "/" });
       return;
-    }
-    try {
-      const raw = parseInt(localStorage.getItem("xv_checks_used") || "0", 10) || 0;
-      const next = raw + 1;
-      localStorage.setItem("xv_checks_used", String(next));
-      if (next >= 3) setShowUpgrade(true);
-    } catch {
-      /* ignore */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -155,7 +145,6 @@ function ResultsPage() {
       </main>
 
       <Footer />
-      <UpgradeModal open={showUpgrade} onClose={() => setShowUpgrade(false)} />
     </div>
   );
 }

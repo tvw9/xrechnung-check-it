@@ -20,9 +20,6 @@ export function Header() {
           <button onClick={() => scrollTo("funktionen")} className="transition-colors hover:text-ink">
             Funktionen
           </button>
-          <button onClick={() => scrollTo("preise")} className="transition-colors hover:text-ink">
-            Preise
-          </button>
           <button onClick={() => scrollTo("faq")} className="transition-colors hover:text-ink">
             FAQ
           </button>
@@ -32,7 +29,7 @@ export function Header() {
           onClick={() => scrollTo("upload")}
           className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-colors hover:bg-brand/90"
         >
-          Kostenlos testen
+          Jetzt prüfen
         </button>
       </div>
     </header>
