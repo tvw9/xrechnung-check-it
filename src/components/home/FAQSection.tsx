@@ -23,8 +23,8 @@ const faqs = [
     a: "XRechnung 3.0 ist die aktuelle Version des deutschen Standards, herausgegeben von KoSIT. Sie enthält alle verbindlichen Geschäftsregeln (BR-Regeln) für konforme elektronische Rechnungen. XValidator prüft Ihre Datei gegen diese Regeln.",
   },
   {
-    q: "Was passiert nach 3 kostenlosen Prüfungen?",
-    a: "Sie können weiterhin Dateien prüfen und die Ergebnisse sehen — wir zeigen Ihnen jedoch einen Hinweis zum Upgrade auf XValidator Pro für unbegrenzte Nutzung.",
+    q: "Ist XValidator wirklich komplett kostenlos?",
+    a: "Ja. Sie können unbegrenzt viele Rechnungen prüfen, ohne Registrierung, ohne Zahlungsdaten und ohne versteckte Kosten.",
   },
 ];
 

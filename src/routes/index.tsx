@@ -3,7 +3,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { UploadCard } from "@/components/home/UploadCard";
 import { FeatureCards } from "@/components/home/FeatureCards";
-import { PricingSection } from "@/components/home/PricingSection";
 import { FAQSection } from "@/components/home/FAQSection";
 import { ShieldCheck } from "lucide-react";
 
@@ -14,7 +13,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Validieren Sie XRechnung 3.0 und ZUGFeRD 2.x-Rechnungen in Sekunden direkt im Browser. DSGVO-konform, ohne Datenweitergabe, 3 Prüfungen kostenlos.",
+          "Validieren Sie XRechnung 3.0 und ZUGFeRD 2.x-Rechnungen in Sekunden direkt im Browser. DSGVO-konform, ohne Datenweitergabe — komplett kostenlos.",
       },
       { property: "og:title", content: "XValidator — E-Rechnung prüfen" },
       {
@@ -43,7 +42,7 @@ function Index() {
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-ink-muted">
             Validieren Sie XRechnung 3.0 und ZUGFeRD 2.x-Rechnungen in Sekunden — direkt im Browser,
-            ohne Datenweitergabe. 3 Prüfungen kostenlos, keine Registrierung.
+            ohne Datenweitergabe. Komplett kostenlos, keine Registrierung, unbegrenzte Prüfungen.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-muted">
             <span className="inline-flex items-center gap-1.5">
@@ -61,7 +60,6 @@ function Index() {
       </section>
 
       <FeatureCards />
-      <PricingSection />
       <FAQSection />
       <Footer />
     </div>
