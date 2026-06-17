@@ -27,14 +27,22 @@ function getTone(r: ValidationResult): "success" | "warn" | "danger" {
 
 function buildReportHtml(fileName: string, r: ValidationResult): string {
   const date = new Date().toLocaleDateString("de-DE");
+  const esc = (s: string) =>
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  const safeName = esc(fileName);
   const row = (it: { code: string; field: string; message: string; solution: string; technicalPath: string }) => `
     <tr>
-      <td><code>${it.code}</code></td>
-      <td><strong>${it.field}</strong><br/><span class="muted">${it.technicalPath}</span></td>
-      <td>${it.message}${it.solution ? `<br/><span class="muted">Lösung: ${it.solution}</span>` : ""}</td>
+      <td><code>${esc(it.code)}</code></td>
+      <td><strong>${esc(it.field)}</strong><br/><span class="muted">${esc(it.technicalPath)}</span></td>
+      <td>${esc(it.message)}${it.solution ? `<br/><span class="muted">Lösung: ${esc(it.solution)}</span>` : ""}</td>
     </tr>`;
   return `<!doctype html><html lang="de"><head><meta charset="utf-8">
-<title>XValidator Prüfbericht — ${fileName} — ${date}</title>
+<title>XValidator Prüfbericht — ${safeName} — ${date}</title>
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#0F172A;max-width:900px;margin:40px auto;padding:0 24px;}
   h1{font-size:22px;margin:0 0 4px;} h2{font-size:16px;margin:32px 0 8px;}
@@ -47,7 +55,7 @@ function buildReportHtml(fileName: string, r: ValidationResult): string {
   .err{color:#DC2626;} .warn{color:#D97706;} .ok{color:#16A34A;}
 </style></head><body>
 <h1>XValidator Prüfbericht</h1>
-<div class="meta">${fileName} · ${date} · Format: ${r.format}</div>
+<div class="meta">${safeName} · ${date} · Format: ${esc(r.format)}</div>
 <div class="score ${r.errors.length ? "err" : r.warnings.length ? "warn" : "ok"}">${r.score}%</div>
 <p>${r.errors.length} Fehler · ${r.warnings.length} Warnungen · ${r.passed.length} bestanden</p>
 
@@ -63,7 +71,7 @@ ${r.warnings.map(row).join("") || `<tr><td colspan="3" class="muted">Keine Warnu
 
 <h2 class="ok">Bestandene Prüfungen (${r.passed.length})</h2>
 <table><thead><tr><th>Code</th><th>Feld</th><th>Status</th></tr></thead><tbody>
-${r.passed.map((p) => `<tr><td><code>${p.code}</code></td><td>${p.field}<br/><span class="muted">${p.technicalPath}</span></td><td class="ok">✓ Pflichtfeld vorhanden</td></tr>`).join("")}
+${r.passed.map((p) => `<tr><td><code>${esc(p.code)}</code></td><td>${esc(p.field)}<br/><span class="muted">${esc(p.technicalPath)}</span></td><td class="ok">✓ Pflichtfeld vorhanden</td></tr>`).join("")}
 </tbody></table>
 
 <p class="muted" style="margin-top:40px">Erstellt mit XValidator · Validierung erfolgt vollständig im Browser, ohne Datenweitergabe.</p>
